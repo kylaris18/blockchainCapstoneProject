@@ -45,8 +45,17 @@ yarn
 
 ### Usage
 
-#### Run the app
+### Run the app
+#### For FrontEnd
 
+```
+git checkout frontend
+```
+then
+```
+npm install
+```
+then
 ```
 npm start
 ```
@@ -59,21 +68,11 @@ or
 expo start
 ```
 
-#### For FrontEnd
+#### For Backend
 
 ```
-git checkout frontend
-```
-then
-```
-npm start
-```
-or
-```
-yarn start
-```
 
-#### Develop the app for iOS
+#### Frontend - Develop the app for iOS
 
 ```
 npm run ios
@@ -83,7 +82,7 @@ or
 yarn run ios
 ```
 
-#### Develop the app for Android
+#### Frontend - Develop the app for Android
 
 ```
 npm run android
