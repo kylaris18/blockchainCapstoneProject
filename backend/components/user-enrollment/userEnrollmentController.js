@@ -3,8 +3,8 @@
 const util = require('../../helpers/util');
 
 const User = require('./userEnrollmentModel')
-const Farmer = require('./farmerEnrollmentModel')
-const Wholesaler = require('./wholesalerEnrollmentModel')
+const Farmer = require('../farmer/farmerModel')
+const Wholesaler = require('../wholesaler/wholesalerModel')
 
 // const logger = log4js.getLogger('controllers - userEnrollment');
 // logger.level = config.logLevel;
@@ -95,4 +95,83 @@ userEnrollment.userEnroll = async (req, res) => {
     }
 };
 
+userEnrollment.updateUsername = async (req, res) => {
+    // logger.info('inside editUser()...');
+
+    let jsonRes;
+    
+    try {
+        let updated = await User.update(
+            { 
+                username: req.body.username
+            }, {
+                where: { userId: req.params.userId }
+            }
+        ) 
+
+        if(updated == 0) {
+            jsonRes = {
+                statusCode: 400,
+                success: false,
+                message: 'No user data changed'
+            };
+        } else {
+            jsonRes = {
+                statusCode: 200,
+                success: true,
+                message: "Username changed successfully"
+            }; 
+        }
+    } catch(error) {
+        jsonRes = {
+            statusCode: 500,
+            success: false,
+            error: error,
+        };
+    } finally {
+        util.sendResponse(res, jsonRes);    
+    }
+};
+
+userEnrollment.updatePassword = async (req, res) => {
+    // logger.info('inside updatePassword()...');
+
+    let jsonRes;
+
+    const salt = util.getSalt();
+    const passwordHash = util.hashPassword(req.body.password, salt);
+    
+    try {
+        let updated = await User.update(
+            { 
+                password: passwordHash,
+                salt: salt
+            }, {
+                where: { userId: req.params.userId }
+            }
+        ) 
+
+        if(updated == 0) {
+            jsonRes = {
+                statusCode: 400,
+                success: false,
+                message: 'No user data changed'
+            };
+        } else {
+            jsonRes = {
+                statusCode: 200,
+                success: true,
+                message: "Password changed successfully"
+            }; 
+        }
+    } catch(error) {
+        jsonRes = {
+            statusCode: 500,
+            success: false,
+            error: error,
+        };
+    } finally {
+        util.sendResponse(res, jsonRes);    
+    }
+};
 module.exports = userEnrollment;

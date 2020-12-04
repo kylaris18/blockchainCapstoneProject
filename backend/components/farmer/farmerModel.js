@@ -1,11 +1,11 @@
 const sequelize = require('../../helpers/mysql-db-helper');
 const { DataTypes } = require('sequelize');
 
-const User = require('./userEnrollmentModel')
+const User = require('../user-enrollment/userEnrollmentModel')
 
-const Wholesaler = sequelize.define('Wholesaler', {
+const Farmer = sequelize.define('farmer', {
     // Model attributes are defined here
-    wholesalerId: {
+    farmerId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         autoIncrement: true,
@@ -16,10 +16,6 @@ const Wholesaler = sequelize.define('Wholesaler', {
         allowNull: false
     },
     lastName: {
-        type: DataTypes.STRING(100),
-        allowNull: false
-    },
-    storeName: {
         type: DataTypes.STRING(100),
         allowNull: false
     },
@@ -41,17 +37,38 @@ const Wholesaler = sequelize.define('Wholesaler', {
     latlong: {
         type: DataTypes.STRING
     },
+    farmerType: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            isIn: {
+                args: [['livestock', 'crop', 'aquaculture', 'horticulture']],
+                msg: 'Invalid value for farmer type'
+            }
+            
+        }
+    },
+    mainGoods: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            isIn: {
+                args: [['dairy', 'poultry', 'meat', 'hide', 'flower', 'shrub', 'sod', 'fish', 'shellfish', 'grain', 'fiber', 'fruit', 'vegetable']],
+                msg: 'Invalid value for main goods field'
+            }
+        }
+    },
     mobile: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    wholesalerDesc: {
+    farmerDesc: {
         type: DataTypes.STRING,
         allowNull: false
     }
   });
 
-  User.hasMany(Wholesaler, {foreignKey: 'userId'})
-  Wholesaler.belongsTo(User, {foreignKey: 'userId'});
+  User.hasMany(Farmer, {foreignKey: 'userId'})
+  Farmer.belongsTo(User, {foreignKey: 'userId'});
 
-  module.exports = Wholesaler
+  module.exports = Farmer

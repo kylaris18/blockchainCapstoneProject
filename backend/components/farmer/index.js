@@ -2,9 +2,7 @@ const express = require('express');
 // const log4js = require('log4js');
 // const config = require('config')
 
-const authHandler = require('../../middlewares/authentication-handler');
-
-const userEnrollmentController = require('./userEnrollmentController');
+const farmerController = require('./farmerController');
 
 const router = express.Router();
 
@@ -21,9 +19,6 @@ const router = express.Router();
 /**
  * Add routes
  */
-router.post('/add', userEnrollmentController.userEnroll);
-router.use(authHandler.authenticateUser);
-router.put('/edit/:userId/username', userEnrollmentController.updateUsername);
-router.put('/edit/:userId/password', userEnrollmentController.updatePassword);
+router.put('/edit/:userId', farmerController.updateFarmer);
 
 module.exports = router;
