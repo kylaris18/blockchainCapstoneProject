@@ -19,6 +19,7 @@ const router = express.Router();
 /**
  * Add routes
  */
-router.put('/edit/:userId', farmerController.updateFarmer);
+ router.get('/:userId', farmerController.getFarmer);
+ router.put('/edit/:userId', farmerController.updateFarmer);
 
 module.exports = router;

@@ -13,6 +13,44 @@ const Farmer = require('./farmerModel')
  */
 const farmer = {};
 
+farmer.getFarmer = async (req, res) => {
+    // logger.info('inside getFarmer()...');
+
+    let jsonRes;
+    
+    try {
+        let farmerInfo = await Farmer.findOne({
+            where: { userId: req.params.userId },
+            attributes: {
+                exclude: ['createdAt', 'updatedAt']
+            }
+        });
+
+        if(farmerInfo.length === 0) {
+            jsonRes = {
+                statusCode: 200,
+                success: true,
+                result: null,
+                message: 'Farmer info empty'
+            };
+        } else {
+            jsonRes = {
+                statusCode: 200,
+                success: true,
+                result: farmerInfo
+            }; 
+        }
+    } catch(error) {
+        jsonRes = {
+            statusCode: 500,
+            success: false,
+            error: error,
+        };
+    } finally {
+        util.sendResponse(res, jsonRes);    
+    }
+};
+
 farmer.updateFarmer = async (req, res) => {
     // logger.info('inside updateFarmer()...');
 
