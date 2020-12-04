@@ -1,11 +1,11 @@
 const sequelize = require('../../helpers/mysql-db-helper');
 const { DataTypes } = require('sequelize');
 
-const User = require('./userEnrollmentModel')
+const User = require('../user-enrollment/userEnrollmentModel')
 
-const Farmer = sequelize.define('farmer', {
+const Wholesaler = sequelize.define('Wholesaler', {
     // Model attributes are defined here
-    farmerId: {
+    wholesalerId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         autoIncrement: true,
@@ -16,6 +16,10 @@ const Farmer = sequelize.define('farmer', {
         allowNull: false
     },
     lastName: {
+        type: DataTypes.STRING(100),
+        allowNull: false
+    },
+    storeName: {
         type: DataTypes.STRING(100),
         allowNull: false
     },
@@ -37,38 +41,17 @@ const Farmer = sequelize.define('farmer', {
     latlong: {
         type: DataTypes.STRING
     },
-    farmerType: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            isIn: {
-                args: [['livestock', 'crop', 'aquaculture', 'horticulture']],
-                msg: 'Invalid value for farmer type'
-            }
-            
-        }
-    },
-    mainGoods: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            isIn: {
-                args: [['dairy', 'poultry', 'meat', 'hide', 'flower', 'shrub', 'sod', 'fish', 'shellfish', 'grain', 'fiber', 'fruit', 'vegetable']],
-                msg: 'Invalid value for main goods field'
-            }
-        }
-    },
     mobile: {
         type: DataTypes.STRING,
         allowNull: false
     },
-    farmerDesc: {
+    wholesalerDesc: {
         type: DataTypes.STRING,
         allowNull: false
     }
   });
 
-  User.hasMany(Farmer, {foreignKey: 'userId'})
-  Farmer.belongsTo(User, {foreignKey: 'userId'});
+  User.hasMany(Wholesaler, {foreignKey: 'userId'})
+  Wholesaler.belongsTo(User, {foreignKey: 'userId'});
 
-  module.exports = Farmer
+  module.exports = Wholesaler

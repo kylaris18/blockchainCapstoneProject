@@ -28,8 +28,8 @@ util.sendResponse = (res, msg) => {
 
   if(response.error) {
     let error = response.error
-    let errorMessages = []
-    if(error.name === 'SequelizeValidationError') {
+    if(error.name && error.errors) {
+      let errorMessages = []
       let validatorArgs
       error.errors.forEach(e => {
         if(Array.isArray(e.validatorArgs) && e.validatorArgs.length) { 

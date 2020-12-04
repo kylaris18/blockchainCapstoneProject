@@ -74,6 +74,271 @@ paths:
               schema:
                 $ref: "#/definitions/ErrorResponse"
 
+  "/api/user/edit/{userId}/username":
+    put:
+      summary: Update username
+      tags:
+      - User Enrollment
+      description: Update username
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+          - name: userId
+            in: path
+            description: User ID
+            required: true
+            style: simple
+            explode: false
+            schema:
+              type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                username:
+                  type: string
+                  example: "username"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                    result:
+                      type: string
+                      example: "xxxxxxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                    
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      security:
+      - bearerAuth: []
+  
+  "/api/user/edit/{userId}/password":
+    put:
+      summary: Update password
+      tags:
+      - User Enrollment
+      description: Update password
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+          - name: userId
+            in: path
+            description: User ID
+            required: true
+            style: simple
+            explode: false
+            schema:
+              type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                password:
+                  type: string
+                  example: "password"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                    result:
+                      type: string
+                      example: "xxxxxxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                    
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      security:
+      - bearerAuth: []
+  
+  "/api/farmer/edit/{userId}":
+    put:
+      summary: Update farmer info
+      tags:
+      - Farmer
+      description: Update farmer info
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+          - name: userId
+            in: path
+            description: User ID
+            required: true
+            style: simple
+            explode: false
+            schema:
+              type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                firstName:
+                  type: string
+                  example: "Jodie"
+                lastName:
+                  type: string
+                  example: "Cristobal"
+                addressLine:
+                  type: string
+                  example: "037 R. Higgins St., Brgy 185"
+                city:
+                  type: string
+                  example: "La Trinidad"
+                province:
+                  type: string
+                  example: "Benguet"
+                zipcode:
+                  type: string
+                  example: "1300"
+                latlong:
+                  type: string
+                  example: "14.543610, 120.994453"
+                farmerType:
+                  type: string
+                  example: "crop"
+                mainGoods:
+                  type: string
+                  example: "vegetable"
+                mobile:
+                  type: string
+                  example: "09262449975"
+                farmerDesc:
+                  type: string
+                  example: "Farmer from La Trinidad, Benguet. Farms Bahay Kubo vegetables. Don\u0027t worry it\u0027s organic"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                    result:
+                      type: string
+                      example: "xxxxxxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                    
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      security:
+      - bearerAuth: []
+  
+  "/api/wholesaler/edit/{userId}":
+    put:
+      summary: Update wholesaler info
+      tags:
+      - Wholesaler
+      description: Update wholesaler info
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+          - name: userId
+            in: path
+            description: User ID
+            required: true
+            style: simple
+            explode: false
+            schema:
+              type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                firstName:
+                  type: string
+                  example: "Jodie"
+                lastName:
+                  type: string
+                  example: "Cristobal"
+                storeName:
+                  type: string
+                  example: "Cristobal Wholesales"
+                addressLine:
+                  type: string
+                  example: "037 R. Higgins St., Brgy 185"
+                city:
+                  type: string
+                  example: "La Trinidad"
+                province:
+                  type: string
+                  example: "Benguet"
+                zipcode:
+                  type: string
+                  example: "1300"
+                latlong:
+                  type: string
+                  example: "14.543610, 120.994453"
+                mobile:
+                  type: string
+                  example: "09262449975"
+                wholesalerDesc:
+                  type: string
+                  example: "Capitalist shit. Nuff said."
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                    result:
+                      type: string
+                      example: "xxxxxxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                    
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      security:
+      - bearerAuth: []
+  
   "/api/token":
     post:
       summary: Create access token 
