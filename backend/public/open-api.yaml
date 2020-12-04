@@ -44,7 +44,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/definitions/userAddSource"
+              oneOf:
+                - $ref: "#/definitions/userAddFarmerSource"
+                - $ref: "#/definitions/userAddWholesalerSource"
+            examples:
+              farmer:
+                $ref: "#/components/examples/userAddFarmerSource"
+              wholesaler:
+                $ref: "#/components/examples/userAddWholesalerSource"
       responses:
         "200":
           description: Success
@@ -106,14 +113,97 @@ paths:
                 $ref: "#/definitions/ErrorResponse"
   
 definitions:
-  userAddSource:
-    properties:
-        username:
-          type: string
-          example: "username"
-        password:
-          type: string
-          example: "password"
+  userAddFarmerSource:
+    properties: 
+      username:
+        type: string
+        example: "username"
+      password:
+        type: string
+        example: "password"
+      userId:
+        type: string
+        example: "1"
+      role:
+        type: string
+        example: "farmer"
+      firstName:
+        type: string
+        example: "Jodie"
+      lastName:
+        type: string
+        example: "Cristobal"
+      addressLine:
+        type: string
+        example: "037 R. Higgins St., Brgy 185"
+      city:
+        type: string
+        example: "La Trinidad"
+      province:
+        type: string
+        example: "Benguet"
+      zipcode:
+        type: string
+        example: "1300"
+      latlong:
+        type: string
+        example: "14.543610, 120.994453"
+      farmerType:
+        type: string
+        example: "livestock/crop/aquaculture/horticulture"
+      mainGoods:
+        type: string
+        example: "dairy/poultry/meat/hide/flower/shrub/sod/fish/shellfish/grain/fiber/fruit/vegetable"
+      mobile:
+        type: string
+        example: "09123456789"
+      farmerDesc:
+        type: string
+        example: "Farmer from La Trinidad, Benguet. Farms Bahay Kubo vegetables. Don\u0027t worry it\u0027s organic" 
+  userAddWholesalerSource:
+    properties: 
+      username:
+        type: string
+        example: "username"
+      password:
+        type: string
+        example: "password"
+      userId:
+        type: string
+        example: "1"
+      role:
+        type: string
+        example: "wholesaler"
+      firstName:
+        type: string
+        example: "Jodie"
+      lastName:
+        type: string
+        example: "Cristobal"
+      storeName:
+        type: string
+        example: "Cristobal Store"
+      addressLine:
+        type: string
+        example: "037 R. Higgins St., Brgy 185"
+      city:
+        type: string
+        example: "La Trinidad"
+      province:
+        type: string
+        example: "Benguet"
+      zipcode:
+        type: string
+        example: "1300"
+      latlong:
+        type: string
+        example: "14.543610, 120.994453"
+      mobile:
+        type: string
+        example: "09123456789"
+      wholesalerDesc:
+        type: string
+        example: "Interested in procuring vegetables for processing"  
 
   accessTokenSource:
     properties:
@@ -135,6 +225,43 @@ definitions:
         example: "Error message"
               
 components:
+  examples:
+    userAddFarmerSource:
+      summary: farmer
+      value: 
+        username: "username"
+        password: "password"
+        userId: "1"
+        role: "farmer"
+        firstName: "Jodie"
+        lastName: "Cristobal"
+        addressLine: "037 R. Higgins St., Brgy 185"
+        city: "La Trinidad"
+        province: "Benguet"
+        zipcode: "1300"
+        latlong: "14.543610, 120.994453"
+        farmerType: "livestock/crop/aquaculture/horticulture"
+        mainGoods: "dairy/poultry/meat/hide/flower/shrub/sod/fish/shellfish/grain/fiber/fruit/vegetable"
+        mobile: "09123456789"
+        farmerDesc: "Farmer from La Trinidad, Benguet. Farms Bahay Kubo vegetables. Don\u0027t worry it\u0027s organic" 
+    userAddWholesalerSource:
+      summary: wholesaler
+      value: 
+        username: "username"
+        password: "password"
+        userId: "1"
+        role: "wholesaler"
+        firstName: "Jodie"
+        lastName: "Cristobal"
+        storeName: "Cristobal Store"
+        addressLine: "037 R. Higgins St., Brgy 185"
+        city: "La Trinidad"
+        province: "Benguet"
+        zipcode: "1300"
+        latlong: "14.543610, 120.994453"
+        mobile: "09123456789"
+        wholesalerDesc: "Interested in procuring vegetables for processing"  
+
   securitySchemes:
     bearerAuth:
       type: http
