@@ -13,6 +13,44 @@ const Wholesaler = require('./wholesalerModel');
  */
 const wholesaler = {};
 
+wholesaler.getWholesaler = async (req, res) => {
+    // logger.info('inside getFarmer()...');
+
+    let jsonRes;
+    
+    try {
+        let wholesalerInfo = await Wholesaler.findOne({
+            where: { userId: req.params.userId },
+            attributes: {
+                exclude: ['createdAt', 'updatedAt']
+            }
+        });
+
+        if(wholesalerInfo.length === 0) {
+            jsonRes = {
+                statusCode: 200,
+                success: true,
+                result: null,
+                message: 'Wholesaler info empty'
+            };
+        } else {
+            jsonRes = {
+                statusCode: 200,
+                success: true,
+                result: wholesalerInfo
+            }; 
+        }
+    } catch(error) {
+        jsonRes = {
+            statusCode: 500,
+            success: false,
+            error: error,
+        };
+    } finally {
+        util.sendResponse(res, jsonRes);    
+    }
+};
+
 wholesaler.updateWholesaler = async (req, res) => {
     // logger.info('inside updateWholesaler()...');
 

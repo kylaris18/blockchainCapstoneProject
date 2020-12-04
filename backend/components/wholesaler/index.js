@@ -19,6 +19,7 @@ const router = express.Router();
 /**
  * Add routes
  */
+router.get('/:userId', wholesalerController.getWholesaler);
 router.put('/edit/:userId', wholesalerController.updateWholesaler);
 
 module.exports = router;
