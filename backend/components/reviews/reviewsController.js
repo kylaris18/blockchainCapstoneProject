@@ -20,7 +20,7 @@ reviewsController.addReviews = async (req, res) => {
     let jsonRes;
     
     try {
-        let [, created] = await reviews.create({
+        let created = await reviews.create({
             userId:     req.body.userId,
             reviewerId: req.body.reviewerId,
             score:      req.body.score || '',

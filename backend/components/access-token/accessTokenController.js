@@ -24,6 +24,8 @@ accessToken.generateAccessToken = async (req, res) => {
             where: { username: username }
         })
 
+
+
         if(getUser === null) {
             jsonRes = {
                 errors: [{

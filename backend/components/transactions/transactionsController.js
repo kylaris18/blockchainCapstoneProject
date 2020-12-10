@@ -17,14 +17,12 @@ transactionsController.addTransaction = async (req, res) => {
     // logger.info('inside userEnroll()...');
     // console.log('inside userEnroll()...');
 
-    let jsonRes;
-    let currentTime = Date.now();
-    
+    let jsonRes;    
     try {
-        let [, created] = await Transaction.create({
+        let created = await Transaction.create({
             wholesalerId: req.body.wholesalerId || '',
             goodsId: req.body.goodsId || '',
-            deliverySendDate: currentTime,
+            status: 1,
             deliveryDesc: req.body.deliveryDesc || ''
         })
 
@@ -59,12 +57,11 @@ transactionsController.getTransaction = async (req, res) => {
     let jsonRes;
     try {
         let transaction = await Transaction.findByPk(req.params.transactionId);
-
         if(transaction === null) {
             jsonRes = {
                 statusCode: 400,
                 success: false,
-                message: 'Unable to record transaction.'
+                message: 'Unable to find transaction.'
             };
         } else {
             jsonRes = {

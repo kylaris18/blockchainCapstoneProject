@@ -20,7 +20,7 @@ goodsController.addGoods = async (req, res) => {
     let jsonRes;
     
     try {
-        let [, created] = await goods.create({
+        let created = await goods.create({
             farmerId:       req.body.farmerId || '',
             goodsName:      req.body.goodsName || '',
             quantityType:   req.body.quantityType || '',

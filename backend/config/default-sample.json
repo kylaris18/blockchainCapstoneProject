@@ -1,18 +1,18 @@
 {
   "app": {
     "node_env": "",
-    "host": "",
-    "port": ""
+    "host": "localhost",
+    "port": "8080"
   },
   "token": {
     "secret":"",
     "expriry": 0
   },
   "database": {
-    "username": "",
+    "username": "root",
     "password": "",
-    "name": "",
-    "host": "",
-    "port": ""
+    "name": "blockchaincapstone",
+    "host": "localhost",
+    "port": "3306"
   }
 }
