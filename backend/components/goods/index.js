@@ -19,11 +19,12 @@ const router = express.Router();
 /**
  * Add routes
  */
+ 
 router.post('/', goodsController.addGoods);
 router.get('/', goodsController.getGoods);
 router.get('/:goodsId', goodsController.getGoodsById);
 router.get('/farmer/:farmerId', goodsController.getGoodsByFarmer);
 router.put('/:goodsId', goodsController.updateGoods);
-router.delete('/:goodsId', goodsController.goodsId);
+router.delete('/:goodsId', goodsController.deleteGoods);
 
 module.exports = router;

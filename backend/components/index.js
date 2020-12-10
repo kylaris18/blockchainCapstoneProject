@@ -12,6 +12,9 @@ const userEnrollment = require('./user-enrollment');
 const accessToken = require('./access-token');
 const farmer = require('./farmer');
 const wholesaler = require('./wholesaler');
+const transactions = require('./transactions');
+const goods = require('./goods');
+const reviews = require('./reviews');
 
 const router = express.Router();
 
@@ -38,5 +41,8 @@ router.use('/token',accessToken);
 router.use(authHandler.authenticateUser);
 router.use('/farmer',farmer);
 router.use('/wholesaler',wholesaler);
+router.use('/transactions',transactions);
+router.use('/goods',goods);
+router.use('/reviews',reviews);
 
 module.exports = router;

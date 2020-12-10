@@ -229,7 +229,6 @@ let transactionData = Web3EthAbi.encodeParameters(['uint256', 'uint256', 'uint25
 (async () => {
 	let decodeTransactionData = await structStorageContract.methods.decodeTransaction(transactionData).encodeABI();
 	const decodeTransaction = await buildSendTransaction(acct, acctKey, decodeTransactionData)
-	console.log(decodeTransaction)
 })();
 
 async function buildSendTransaction(account, accountKey, data) {

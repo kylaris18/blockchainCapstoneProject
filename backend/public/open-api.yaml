@@ -376,6 +376,879 @@ paths:
             application/json:
               schema:
                 $ref: "#/definitions/ErrorResponse"
+
+  "/api/transactions":
+    post:
+      summary: Add transaction record
+      tags:
+      - Transactions
+      description: Add transaction record
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                wholesalerId:
+                  type: integer
+                  example: 1
+                goodsId:
+                  type: integer
+                  example: 1
+                deliveryDesc:
+                  type: string
+                  example: "Placed in sack, securely tied."
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                    message:
+                      type: string
+                      example: "Transaction recorded successfully."
+                    
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      security:
+      - bearerAuth: []
+  "/api/transactions/{transactionId}":
+    get:
+      summary: Get transaction details via Transaction ID
+      tags:
+      - Transactions
+      description: Get transaction details via Transaction ID
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+          - name: transactionId
+            in: path
+            description: Transaction ID
+            required: true
+            style: simple
+            explode: false
+            schema:
+              type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                    body:
+                      type: object
+                      properties:
+                        transactionId:
+                          type: integer
+                          example: 2
+                        wholesalerId:
+                          type: integer
+                          example: 1
+                        goodsId:
+                          type: integer
+                          example: 1
+                        status:
+                          type: integer
+                          example: 1
+                        deliverySendDate:
+                          type: string
+                          example: "2020-12-10T18:32:17.000Z"
+                        deliveryRecieveDate:
+                          type: string
+                          example: "2020-12-11T18:32:17.000Z"
+                        deliveryDesc:
+                          type: string
+                          example: "Item well packed with breathable plastic"
+                        createdAt:
+                          type: string
+                          example: "2020-12-10T18:32:17.000Z"
+                        updatedAt:
+                          type: string
+                          example: "2020-12-11T18:32:17.000Z"   
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      security:
+      - bearerAuth: []
+
+  "/api/goods":
+    post:
+      summary: Add goods record
+      tags:
+      - Goods
+      description: Add goods record
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                farmerId:
+                  type: integer
+                  example: 1
+                goodsName:
+                  type: string
+                  example: "Celery"
+                quantityType:
+                  type: string
+                  example: "kilos"
+                quantityValue:
+                  type: integer
+                  example: 5
+                amountPerUnit:
+                  type: integer
+                  example: 20
+                amount:
+                  type: integer
+                  example: 100
+                additionalDesc:
+                  type: string
+                  example: "good freshly farmed celery."
+                plantationDate:
+                  type: string
+                  example: "1586476800"
+                harvestDate:
+                  type: string
+                  example: "1607624844"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                    message:
+                      type: string
+                      example: "Goods recorded successfully."
+                    
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      security:
+      - bearerAuth: []
+    get:
+      summary: Get all goods details
+      tags:
+      - Goods
+      description: Get all goods details
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                    body:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          goodsId:
+                            type: integer
+                            example: 1
+                          farmerId:
+                            type: integer
+                            example: 1
+                          goodsName:
+                            type: string
+                            example: "Celery"
+                          quantityType:
+                            type: string
+                            example: "kilos"
+                          quantityValue:
+                            type: integer
+                            example: 5
+                          amountPerUnit:
+                            type: integer
+                            example: 20
+                          amount:
+                            type: integer
+                            example: 100
+                          additionalDesc:
+                            type: string
+                            example: "good freshly farmed celery."
+                          plantationDate:
+                            type: string
+                            example: "1586476800"
+                          harvestDate:
+                            type: string
+                            example: "1607624844"
+                          createdAt:
+                            type: string
+                            example: "2020-12-10T18:28:56.000Z"
+                          updatedAt:
+                            type: string
+                            example: "2020-12-10T18:28:56.000Z" 
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      security:
+      - bearerAuth: []
+    
+  "/api/goods/{goodsId}":
+    get:
+      summary: Get goods details via goods ID
+      tags:
+      - Goods
+      description: Get goods details via goods ID
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+          - name: goodsId
+            in: path
+            description: Goods ID
+            required: true
+            style: simple
+            explode: false
+            schema:
+              type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                    body:
+                      type: object
+                      properties:
+                        goodsId:
+                          type: integer
+                          example: 1
+                        farmerId:
+                          type: integer
+                          example: 1
+                        goodsName:
+                          type: string
+                          example: "Celery"
+                        quantityType:
+                          type: string
+                          example: "kilos"
+                        quantityValue:
+                          type: integer
+                          example: 5
+                        amountPerUnit:
+                          type: integer
+                          example: 20
+                        amount:
+                          type: integer
+                          example: 100
+                        additionalDesc:
+                          type: string
+                          example: "good freshly farmed celery."
+                        plantationDate:
+                          type: string
+                          example: "1586476800"
+                        harvestDate:
+                          type: string
+                          example: "1607624844"
+                        createdAt:
+                          type: string
+                          example: "2020-12-10T18:28:56.000Z"
+                        updatedAt:
+                          type: string
+                          example: "2020-12-10T18:28:56.000Z" 
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      security:
+      - bearerAuth: []
+    put:
+      summary: Update goods details via goods ID
+      tags:
+      - Goods
+      description: Update goods details via goods ID
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+          - name: goodsId
+            in: path
+            description: Goods ID
+            required: true
+            style: simple
+            explode: false
+            schema:
+              type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                farmerId:
+                  type: integer
+                  example: 1
+                goodsName:
+                  type: string
+                  example: "Celery"
+                quantityType:
+                  type: string
+                  example: "kilos"
+                quantityValue:
+                  type: integer
+                  example: 5
+                amountPerUnit:
+                  type: integer
+                  example: 20
+                amount:
+                  type: integer
+                  example: 100
+                additionalDesc:
+                  type: string
+                  example: "good freshly farmed celery."
+                plantationDate:
+                  type: string
+                  example: "1586476800"
+                harvestDate:
+                  type: string
+                  example: "1607624844"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                    message:
+                      type: string
+                      example: "Record updated successfully."
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      security:
+      - bearerAuth: []
+    delete:
+      summary: Delete goods details via goods ID
+      tags:
+      - Goods
+      description: Delete goods details via goods ID
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+          - name: goodsId
+            in: path
+            description: Goods ID
+            required: true
+            style: simple
+            explode: false
+            schema:
+              type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                    message:
+                      type: string
+                      example: "Record deleted successfully."
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      security:
+      - bearerAuth: []
+  "/api/goods/farmer/{farmerId}":
+    get:
+      summary: Get all goods details of a farmer by Farmer Id
+      tags:
+      - Goods
+      description: Get all goods details of a farmer by Farmer Id
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+          - name: farmerId
+            in: path
+            description: Farmer ID
+            required: true
+            style: simple
+            explode: false
+            schema:
+              type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                    body:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          goodsId:
+                            type: integer
+                            example: 1
+                          farmerId:
+                            type: integer
+                            example: 1
+                          goodsName:
+                            type: string
+                            example: "Celery"
+                          quantityType:
+                            type: string
+                            example: "kilos"
+                          quantityValue:
+                            type: integer
+                            example: 5
+                          amountPerUnit:
+                            type: integer
+                            example: 20
+                          amount:
+                            type: integer
+                            example: 100
+                          additionalDesc:
+                            type: string
+                            example: "good freshly farmed celery."
+                          plantationDate:
+                            type: string
+                            example: "1586476800"
+                          harvestDate:
+                            type: string
+                            example: "1607624844"
+                          createdAt:
+                            type: string
+                            example: "2020-12-10T18:28:56.000Z"
+                          updatedAt:
+                            type: string
+                            example: "2020-12-10T18:28:56.000Z" 
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      security:
+      - bearerAuth: []
+  "/api/reviews":
+    post:
+      summary: Add user review
+      tags:
+      - Reviews
+      description: Add user review
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                userId:
+                  type: integer
+                  example: 1
+                reviewerId:
+                  type: integer
+                  example: 2
+                score:
+                  type: float
+                  example: 5
+                reviewDesc:
+                  type: string
+                  example: "Excellent packaging. Would order again."
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                    message:
+                      type: string
+                      example: "Review recorded successfully."
+                    
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      security:
+      - bearerAuth: []
+    get:
+      summary: Get all reviews
+      tags:
+      - Reviews
+      description: Get all reviews
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                    body:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          reviewId:
+                            type: integer
+                            example: 1
+                          userId:
+                            type: integer
+                            example: 1
+                          reviewerId:
+                            type: integer
+                            example: 2
+                          score:
+                            type: float
+                            example: 5
+                          reviewDesc:
+                            type: string
+                            example: "Excellent packaging. Would order again."
+                          createdAt:
+                            type: string
+                            example: "2020-12-10T18:28:56.000Z"
+                          updatedAt:
+                            type: string
+                            example: "2020-12-10T18:28:56.000Z" 
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      security:
+      - bearerAuth: []
+  "/api/reviews/{reviewId}":
+    get:
+      summary: Get review details by Review Id
+      tags:
+      - Reviews
+      description: Get review details by Review Id
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+          - name: reviewId
+            in: path
+            description: Review ID
+            required: true
+            style: simple
+            explode: false
+            schema:
+              type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                    body:
+                      type: object
+                      properties:
+                        reviewId:
+                          type: integer
+                          example: 1
+                        userId:
+                          type: integer
+                          example: 1
+                        reviewerId:
+                          type: integer
+                          example: 2
+                        score:
+                          type: float
+                          example: 5
+                        reviewDesc:
+                          type: string
+                          example: "Excellent packaging. Would order again."
+                        createdAt:
+                          type: string
+                          example: "2020-12-10T18:28:56.000Z"
+                        updatedAt:
+                          type: string
+                          example: "2020-12-10T18:28:56.000Z" 
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      security:
+      - bearerAuth: []
+    put:
+      summary: Update user review
+      tags:
+      - Reviews
+      description: Update user review
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+          - name: reviewId
+            in: path
+            description: Review ID
+            required: true
+            style: simple
+            explode: false
+            schema:
+              type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                userId:
+                  type: integer
+                  example: 1
+                reviewerId:
+                  type: integer
+                  example: 2
+                score:
+                  type: float
+                  example: 5
+                reviewDesc:
+                  type: string
+                  example: "Excellent packaging. Would order again."
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                    message:
+                      type: string
+                      example: "Record updated successfully."
+                    
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      security:
+      - bearerAuth: []
+  "/api/reviews/user/{userId}":
+    get:
+      summary: Get review details by User Id
+      tags:
+      - Reviews
+      description: Get review details by User Id
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+          - name: userId
+            in: path
+            description: User ID
+            required: true
+            style: simple
+            explode: false
+            schema:
+              type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                    body:
+                      type: object
+                      properties:
+                        reviewId:
+                          type: integer
+                          example: 1
+                        userId:
+                          type: integer
+                          example: 1
+                        reviewerId:
+                          type: integer
+                          example: 2
+                        score:
+                          type: float
+                          example: 5
+                        reviewDesc:
+                          type: string
+                          example: "Excellent packaging. Would order again."
+                        createdAt:
+                          type: string
+                          example: "2020-12-10T18:28:56.000Z"
+                        updatedAt:
+                          type: string
+                          example: "2020-12-10T18:28:56.000Z" 
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      security:
+      - bearerAuth: []
+  "/api/reviews/reviewer/{reviewerId}":
+    get:
+      summary: Get review details by Reviewer Id
+      tags:
+      - Reviews
+      description: Get review details by Reviewer Id
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+          - name: reviewerId
+            in: path
+            description: Reviewer ID
+            required: true
+            style: simple
+            explode: false
+            schema:
+              type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                    body:
+                      type: object
+                      properties:
+                        reviewId:
+                          type: integer
+                          example: 1
+                        userId:
+                          type: integer
+                          example: 1
+                        reviewerId:
+                          type: integer
+                          example: 2
+                        score:
+                          type: float
+                          example: 5
+                        reviewDesc:
+                          type: string
+                          example: "Excellent packaging. Would order again."
+                        createdAt:
+                          type: string
+                          example: "2020-12-10T18:28:56.000Z"
+                        updatedAt:
+                          type: string
+                          example: "2020-12-10T18:28:56.000Z" 
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      security:
+      - bearerAuth: []
   
 definitions:
   userAddFarmerSource:
