@@ -74,6 +74,44 @@ paths:
               schema:
                 $ref: "#/definitions/ErrorResponse"
 
+  "/api/token":
+    post:
+      summary: Create access token 
+      tags:
+      - Access Token
+      description: Get access token
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/accessTokenSource"
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                    result:
+                      type: string
+                      example: "xxxxxxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                    
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+
   "/api/user/edit/{userId}/username":
     put:
       summary: Update username
@@ -113,9 +151,9 @@ paths:
                     success:
                       type: boolean
                       example: true
-                    result:
+                    message:
                       type: string
-                      example: "xxxxxxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                      example: "Username updated successfully"
                     
         "500":
           description: Error
@@ -165,9 +203,9 @@ paths:
                     success:
                       type: boolean
                       example: true
-                    result:
+                    message:
                       type: string
-                      example: "xxxxxxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                      example: "Password updated successfully"
                     
         "500":
           description: Error
@@ -247,9 +285,9 @@ paths:
                     success:
                       type: boolean
                       example: true
-                    result:
+                    message:
                       type: string
-                      example: "xxxxxxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                      example: "Farmer info updated successfully"
                     
         "500":
           description: Error
@@ -326,9 +364,9 @@ paths:
                     success:
                       type: boolean
                       example: true
-                    result:
+                    message:
                       type: string
-                      example: "xxxxxxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+                      example: "Wholesaler info updated successfully"
                     
         "500":
           description: Error
@@ -339,44 +377,6 @@ paths:
       security:
       - bearerAuth: []
   
-  "/api/token":
-    post:
-      summary: Create access token 
-      tags:
-      - Access Token
-      description: Get access token
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/definitions/accessTokenSource"
-      responses:
-        "200":
-          description: Success
-          content:
-            application/json:
-                schema:
-                  type: object
-                  properties:
-                    success:
-                      type: boolean
-                      example: true
-                    result:
-                      type: string
-                      example: "xxxxxxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                    
-        "500":
-          description: Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/definitions/ErrorResponse"
-
   "/api/transactions":
     post:
       summary: Add transaction record
@@ -425,6 +425,7 @@ paths:
                 $ref: "#/definitions/ErrorResponse"
       security:
       - bearerAuth: []
+  
   "/api/transactions/{transactionId}":
     get:
       summary: Get transaction details via Transaction ID
@@ -493,7 +494,57 @@ paths:
                 $ref: "#/definitions/ErrorResponse"
       security:
       - bearerAuth: []
-
+    put:
+      summary: Update transaction status
+      tags:
+      - Transactions
+      description: Update transaction status
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+          - name: transactionId
+            in: path
+            description: Transaction ID
+            required: true
+            style: simple
+            explode: false
+            schema:
+              type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                status:
+                  type: int
+                  example: 2
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: true
+                    message:
+                      type: string
+                      example: "Transaction status updated successfully"
+                    
+        "500":
+          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/ErrorResponse"
+      security:
+      - bearerAuth: []
+  
   "/api/goods":
     post:
       summary: Add goods record
