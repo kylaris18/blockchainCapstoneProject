@@ -21,5 +21,6 @@ const router = express.Router();
  */
 router.post('/', transactionsController.addTransaction);
 router.get('/:transactionId', transactionsController.getTransaction);
+router.put('/:transactionId', transactionsController.updateTransactionStatus);
 
 module.exports = router;

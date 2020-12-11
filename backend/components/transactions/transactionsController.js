@@ -81,4 +81,45 @@ transactionsController.getTransaction = async (req, res) => {
     }
 };
 
+transactionsController.updateTransactionStatus = async (req, res) => {
+    // logger.info('inside updateTransactionStatus()...');
+    // console.log('inside updateTransactionStatus()...');
+
+    let jsonRes;
+    try {
+        let body = req.body
+        if(body.status === 5)
+            body.deliveryRecieveDate = new Date()
+        
+        let updated = await Transaction.update(
+            body, 
+            {
+                where: { transactionId: req.params.transactionId }
+            }
+        ) 
+
+        if(updated == 0) {
+            jsonRes = {
+                statusCode: 400,
+                success: false,
+                message: 'Unable to find transaction.'
+            };
+        } else {
+            jsonRes = {
+                statusCode: 200,
+                success: true,
+                message: "Transaction status updated successfully"
+            }; 
+        }
+    } catch(error) {
+        jsonRes = {
+            statusCode: 500,
+            success: false,
+            error: error,
+        };
+    } finally {
+        util.sendResponse(res, jsonRes);    
+    }
+};
+
 module.exports = transactionsController;
