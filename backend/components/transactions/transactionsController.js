@@ -46,6 +46,7 @@ transactionsController.addTransaction = async (req, res) => {
 
             let transactionData = Web3EthAbi.encodeParameters(['uint256', 'uint256', 'uint256', 'uint256', 'bytes', 'bytes', 'bytes'], [created.transactionId, body.wholesalerId, body.goodsId, 1, body.deliverySendDate, body.deliveryRecieveDate, body.deliveryDesc]);
 
+            console.log(transactionData)
             contract.callTransaction(transactionData)
 
             jsonRes = {
@@ -81,6 +82,7 @@ transactionsController.getTransaction = async (req, res) => {
         } else {
             let body = transaction.dataValues;
             // console.log(body)
+            contract.getTransaction(req.params.transactionId)
             jsonRes = {
                 statusCode: 200,
                 success: true,
@@ -122,6 +124,8 @@ transactionsController.updateTransactionStatus = async (req, res) => {
                 message: 'Unable to find transaction.'
             };
         } else {
+
+            contract.getTransaction(req.params.transactionId)
             jsonRes = {
                 statusCode: 200,
                 success: true,
