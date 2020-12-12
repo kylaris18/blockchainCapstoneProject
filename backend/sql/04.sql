@@ -7,10 +7,10 @@ CREATE TABLE `goods` (
   `amountPerUnit` varchar(255),
   `amount` varchar(255),
   `additionalDesc` varchar(255),
-  `plantationDate` timestamp,
-  `harvestDate` timestamp,
+  `plantationDate` datetime,
+  `harvestDate` datetime,
   `createdAt` timestamp,
-  `updatedAt` timestamp
+  `updatedAt` datetime
 );
 
 ALTER TABLE `goods` ADD FOREIGN KEY (`farmerId`) REFERENCES `farmers` (`farmerId`);

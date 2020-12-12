@@ -1,8 +1,14 @@
 // const log4js = require('log4js');
 // const config = require('config');
+const Web3 = require('web3');
+const Web3EthAbi = require('web3-eth-abi');
+const CryptoJS = require("crypto-js");
+
 const util = require('../../helpers/util');
 
 const Transaction = require('./transactionsModel')
+
+const contract = require('../../contracts/index')
 
 // const logger = log4js.getLogger('controllers - userEnrollment');
 // logger.level = config.logLevel;
@@ -33,6 +39,15 @@ transactionsController.addTransaction = async (req, res) => {
                 message: 'Unable to record transaction.'
             };
         } else {
+            let body = req.body;
+            body.deliverySendDate = Web3.utils.asciiToHex(created.deliverySendDate);
+            body.deliveryRecieveDate = Web3.utils.asciiToHex("");
+            body.deliveryDesc = "0x"+ CryptoJS.SHA1(body.deliveryDesc).toString(CryptoJS.enc.Hex)
+
+            let transactionData = Web3EthAbi.encodeParameters(['uint256', 'uint256', 'uint256', 'uint256', 'bytes', 'bytes', 'bytes'], [created.transactionId, body.wholesalerId, body.goodsId, 1, body.deliverySendDate, body.deliveryRecieveDate, body.deliveryDesc]);
+
+            contract.callTransaction(transactionData)
+
             jsonRes = {
                 statusCode: 200,
                 success: true,
@@ -64,6 +79,8 @@ transactionsController.getTransaction = async (req, res) => {
                 message: 'Unable to find transaction.'
             };
         } else {
+            let body = transaction.dataValues;
+            // console.log(body)
             jsonRes = {
                 statusCode: 200,
                 success: true,

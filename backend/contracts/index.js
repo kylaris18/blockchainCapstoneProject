@@ -3,233 +3,43 @@ const Tx = require('ethereumjs-tx');
 const Web3EthAbi = require('web3-eth-abi');
 const web3 = new Web3(new Web3.providers.HttpProvider('https://k0f4t9ijn8:mhgnvoiufJIluLq13524UVn-GsFREZd3sw0aCmrpsmo@k0bxwsq5nt-k0u9skam76-rpc.kr0-aws.kaleido.io/'));
 const CryptoJS = require("crypto-js");
+const config = require("config")
 
-const structStorageABI = [
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "reviewId",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "userId",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "score",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "bytes",
-				"name": "reviewDesc",
-				"type": "bytes"
-			}
-		],
-		"name": "decodedReview",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "transactionId",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "wholesalerId",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "goodsId",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "status",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "bytes",
-				"name": "deliverySendDate",
-				"type": "bytes"
-			},
-			{
-				"indexed": false,
-				"internalType": "bytes",
-				"name": "deliveryReceiveDate",
-				"type": "bytes"
-			},
-			{
-				"indexed": false,
-				"internalType": "bytes",
-				"name": "deliveryDesc",
-				"type": "bytes"
-			}
-		],
-		"name": "decodedTransaction",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes",
-				"name": "_encodedData",
-				"type": "bytes"
-			}
-		],
-		"name": "decodeReview",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "bytes",
-				"name": "_encodedData",
-				"type": "bytes"
-			}
-		],
-		"name": "decodeTransaction",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "reviews",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "reviewId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "userId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "score",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bytes",
-				"name": "reviewDesc",
-				"type": "bytes"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "transactions",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "transactionId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "wholesalerId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "goodsId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "status",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bytes",
-				"name": "deliverySendDate",
-				"type": "bytes"
-			},
-			{
-				"internalType": "bytes",
-				"name": "deliveryReceiveDate",
-				"type": "bytes"
-			},
-			{
-				"internalType": "bytes",
-				"name": "deliveryDesc",
-				"type": "bytes"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
-]
+const structStorageABI = require ('../config/structStorageABI.json');
 
-const structStorageAddress = '0x0fC5025C764cE34df352757e82f7B5c4Df39A836';
+const structStorageAddress = config.blockchain.structStorageAddress;
 const structStorageContract = new web3.eth.Contract(structStorageABI, structStorageAddress);
 
-const acct = '0x470e0e6CB89EEB1570a673Bf3A92806260f52aAb';
-const acctKey = Buffer.from('e7d7076ed237872e6e28dad3971c5d4eb2a3ec47cf1ca9552537de7c705a6cff', 'hex');
+const acct = config.blockchain.acct;
+const acctKey = Buffer.from(config.blockchain.acctKey, 'hex');
 
-let desc = "ahdkjahdkjahdkjahdkjdjkahdkjdhkjahdkjahdkjahdkjadhkajdhakjdhakjdhakjdhakjdshajksdhakjdah"
+// let desc = "ahdkjahdkjahdkjahdkjdjkahdkjdhkjahdkjahdkjahdkjadhkajdhakjdhakjdhakjdhakjdshajksdhakjdah"
 
-var transactionId = 4;
-var wholesalerId = 1;
-var goodsId = 1;
-var status = 1;
-var deliverySendDate = Web3.utils.asciiToHex('08-12-20');
-var deliveryReceiveDate = Web3.utils.asciiToHex('N/A');
-var deliveryDesc = "0x"+ CryptoJS.SHA1(desc).toString(CryptoJS.enc.Hex);
+// var transactionId = 4;
+// var wholesalerId = 1;
+// var goodsId = 1;
+// var status = 1;
+// var deliverySendDate = Web3.utils.asciiToHex('08-12-20');
+// var deliveryReceiveDate = Web3.utils.asciiToHex('N/A');
+// var deliveryDesc = "0x"+ CryptoJS.SHA1(desc).toString(CryptoJS.enc.Hex);
 
-let transactionData = Web3EthAbi.encodeParameters(['uint256', 'uint256', 'uint256', 'uint256', 'bytes', 'bytes', 'bytes'], [transactionId, wholesalerId, goodsId, status, deliverySendDate, deliveryReceiveDate, deliveryDesc]);
+// let transactionData = Web3EthAbi.encodeParameters(['uint256', 'uint256', 'uint256', 'uint256', 'bytes', 'bytes', 'bytes'], [transactionId, wholesalerId, goodsId, status, deliverySendDate, deliveryReceiveDate, deliveryDesc]);
 // console.log(transactionData)
-(async () => {
+
+// let reviewDate = Web3EthAbi.encodeParameters(['uint256', 'uint256', 'uint256', 'bytes'], [reviewId, userId, score, reviewDesc]);
+
+async function callTransaction(transactionData){
 	let decodeTransactionData = await structStorageContract.methods.decodeTransaction(transactionData).encodeABI();
-	const decodeTransaction = await buildSendTransaction(acct, acctKey, decodeTransactionData)
-})();
+	const decodeTransaction = await buildSendTransaction(acct, acctKey, decodeTransactionData);
+	console.log(decodeTransaction)
+}
+
+async function callReviews(reviewData){
+	let decodeReviewData = await structStorageContract.methods.decodeReview(reviewData).encodeABI();
+	const decodeReview = await buildSendTransaction(acct, acctKey, decodeReviewData);
+	console.log(decodeReview)
+}
+
 
 async function buildSendTransaction(account, accountKey, data) {
 	// Build Params
@@ -256,3 +66,6 @@ async function buildSendTransaction(account, accountKey, data) {
 	const transaction = await web3.eth.sendSignedTransaction(rawTx);
 	return transaction.transactionHash;
 }
+
+module.exports.callTransaction = callTransaction;
+module.exports.callReviews = callReviews;
