@@ -3,11 +3,11 @@ CREATE TABLE `transactions` (
   `wholesalerId` int,
   `goodsId` int,
   `status` int,
-  `deliverySendDate` timestamp,
-  `deliveryRecieveDate` timestamp,
+  `deliverySendDate` datetime,
+  `deliveryRecieveDate` datetime,
   `deliveryDesc` varchar(255),
   `createdAt` timestamp,
-  `updatedAt` timestamp
+  `updatedAt` datetime
 );
 
 ALTER TABLE `transactions` ADD FOREIGN KEY (`goodsId`) REFERENCES `goods` (`goodsId`);

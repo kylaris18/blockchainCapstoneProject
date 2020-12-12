@@ -12,7 +12,7 @@ CREATE TABLE `wholesalers` (
   `mobile` varchar(255),
   `wholesalerDesc` varchar(255),
   `createdAt` timestamp,
-  `updatedAt` timestamp
+  `updatedAt` datetime
 );
 
 CREATE TABLE `farmers` (
@@ -30,7 +30,7 @@ CREATE TABLE `farmers` (
   `mobile` varchar(255),
   `farmerDesc` varchar(255),
   `createdAt` timestamp,
-  `updatedAt` timestamp
+  `updatedAt` datetime
 );
 
 ALTER TABLE `farmers` 
