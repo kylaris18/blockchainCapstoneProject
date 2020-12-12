@@ -34,6 +34,11 @@ async function callTransaction(transactionData){
 	console.log(decodeTransaction)
 }
 
+async function getTransaction(id){
+	let transaction = await structStorageContract.methods.transactions(id).call()
+	console.log(transaction)
+}
+
 async function callReviews(reviewData){
 	let decodeReviewData = await structStorageContract.methods.decodeReview(reviewData).encodeABI();
 	const decodeReview = await buildSendTransaction(acct, acctKey, decodeReviewData);
@@ -68,4 +73,6 @@ async function buildSendTransaction(account, accountKey, data) {
 }
 
 module.exports.callTransaction = callTransaction;
+module.exports.getTransaction = getTransaction;
+
 module.exports.callReviews = callReviews;
