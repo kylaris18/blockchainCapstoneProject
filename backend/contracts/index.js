@@ -13,29 +13,14 @@ const structStorageContract = new web3.eth.Contract(structStorageABI, structStor
 const acct = config.blockchain.acct;
 const acctKey = Buffer.from(config.blockchain.acctKey, 'hex');
 
-// let desc = "ahdkjahdkjahdkjahdkjdjkahdkjdhkjahdkjahdkjahdkjadhkajdhakjdhakjdhakjdhakjdshajksdhakjdah"
-
-// var transactionId = 4;
-// var wholesalerId = 1;
-// var goodsId = 1;
-// var status = 1;
-// var deliverySendDate = Web3.utils.asciiToHex('08-12-20');
-// var deliveryReceiveDate = Web3.utils.asciiToHex('N/A');
-// var deliveryDesc = "0x"+ CryptoJS.SHA1(desc).toString(CryptoJS.enc.Hex);
-
-// let transactionData = Web3EthAbi.encodeParameters(['uint256', 'uint256', 'uint256', 'uint256', 'bytes', 'bytes', 'bytes'], [transactionId, wholesalerId, goodsId, status, deliverySendDate, deliveryReceiveDate, deliveryDesc]);
-// console.log(transactionData)
-
-// let reviewDate = Web3EthAbi.encodeParameters(['uint256', 'uint256', 'uint256', 'bytes'], [reviewId, userId, score, reviewDesc]);
-
 async function callTransaction(transactionData){
 	let decodeTransactionData = await structStorageContract.methods.decodeTransaction(transactionData).encodeABI();
 	const decodeTransaction = await buildSendTransaction(acct, acctKey, decodeTransactionData);
 	console.log(decodeTransaction)
 }
 
-async function getTransaction(id){
-	let transaction = await structStorageContract.methods.transactions(id).call()
+async function getTransaction(transactionId){
+	let transaction = await structStorageContract.methods.transactions(transactionId).call()
 	console.log(transaction)
 }
 
@@ -45,6 +30,10 @@ async function callReviews(reviewData){
 	console.log(decodeReview)
 }
 
+async function getReviews(reviewId){
+	let review = await structStorageContract.methods.reviews(reviewId).call()
+	console.log(review)
+}
 
 async function buildSendTransaction(account, accountKey, data) {
 	// Build Params
@@ -76,3 +65,4 @@ module.exports.callTransaction = callTransaction;
 module.exports.getTransaction = getTransaction;
 
 module.exports.callReviews = callReviews;
+module.exports.getReviews = getReviews;

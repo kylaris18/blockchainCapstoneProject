@@ -46,7 +46,6 @@ transactionsController.addTransaction = async (req, res) => {
 
             let transactionData = Web3EthAbi.encodeParameters(['uint256', 'uint256', 'uint256', 'uint256', 'bytes', 'bytes', 'bytes'], [created.transactionId, body.wholesalerId, body.goodsId, 1, body.deliverySendDate, body.deliveryRecieveDate, body.deliveryDesc]);
 
-            console.log(transactionData)
             contract.callTransaction(transactionData)
 
             jsonRes = {
@@ -82,7 +81,7 @@ transactionsController.getTransaction = async (req, res) => {
         } else {
             let body = transaction.dataValues;
             // console.log(body)
-            contract.getTransaction(req.params.transactionId)
+            contract.getTransaction(req.params.transactionId) // Jodie gawa ka logic after nito
             jsonRes = {
                 statusCode: 200,
                 success: true,
@@ -124,8 +123,15 @@ transactionsController.updateTransactionStatus = async (req, res) => {
                 message: 'Unable to find transaction.'
             };
         } else {
+            let body = req.body;
+            body.deliverySendDate = Web3.utils.asciiToHex(created.deliverySendDate); //need natin kunin yung deliverySendDate sa db
+            body.deliveryRecieveDate = Web3.utils.asciiToHex(body.deliveryRecieveDate); //creacted ba or body?
+            body.deliveryDesc = "0x"+ CryptoJS.SHA1(body.deliveryDesc).toString(CryptoJS.enc.Hex) //dito rin need galing db pati yung mga id
 
-            contract.getTransaction(req.params.transactionId)
+            let transactionData = Web3EthAbi.encodeParameters(['uint256', 'uint256', 'uint256', 'uint256', 'bytes', 'bytes', 'bytes'], [created.transactionId, body.wholesalerId, body.goodsId, 1, body.deliverySendDate, body.deliveryRecieveDate, body.deliveryDesc]);
+
+            contract.callTransaction(transactionData)
+
             jsonRes = {
                 statusCode: 200,
                 success: true,

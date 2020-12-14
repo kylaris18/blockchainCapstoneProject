@@ -1,6 +1,17 @@
 pragma solidity ^0.7.0;
 
 contract StructStorage {
+    
+    address public owner;
+    constructor () {
+        owner = msg.sender;
+    }
+    
+    modifier onlyOwner {
+        require(owner == msg.sender, 'Should be the owner of the contract');
+        _;
+    }
+    
     struct transaction {
         uint256 transactionId;
         uint256 wholesalerId;
@@ -37,10 +48,7 @@ contract StructStorage {
         bytes reviewDesc
     );
 
-    function decodeTransaction(bytes memory _encodedData)
-        public
-        returns (bool)
-    {
+    function decodeTransaction(bytes memory _encodedData) public onlyOwner returns (bool) {
         (
             uint256 transactionId,
             uint256 wholesalerId,
@@ -76,7 +84,7 @@ contract StructStorage {
         return true;
     }
 
-    function decodeReview(bytes memory _encodedData) public returns (bool) {
+    function decodeReview(bytes memory _encodedData) public onlyOwner returns (bool) {
         (
             uint256 reviewId,
             uint256 userId,
