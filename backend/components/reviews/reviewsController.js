@@ -1,12 +1,13 @@
 // const log4js = require('log4js');
 // const config = require('config');
+const Web3 = require('web3');
+const Web3EthAbi = require('web3-eth-abi');
+const CryptoJS = require("crypto-js");
 const util = require('../../helpers/util');
+const _ = require('lodash')
 
+const contract = require('../../contracts/index')
 const reviews = require('./reviewsModel')
-
-// const logger = log4js.getLogger('controllers - userEnrollment');
-// logger.level = config.logLevel;
-// console.log('controllers - userEnrollment');
 
 /**
  * Controller object
@@ -14,9 +15,6 @@ const reviews = require('./reviewsModel')
 const reviewsController = {};
 
 reviewsController.addReviews = async (req, res) => {
-    // logger.info('inside userEnroll()...');
-    // console.log('inside userEnroll()...');
-
     let jsonRes;
     
     try {
@@ -34,6 +32,13 @@ reviewsController.addReviews = async (req, res) => {
                 message: 'Unable to record review.'
             };
         } else {
+            let body = req.body;
+            body.reviewDesc = "0x"+ CryptoJS.SHA1(body.reviewDesc).toString(CryptoJS.enc.Hex)
+
+            let transactionData = Web3EthAbi.encodeParameters(['uint256', 'uint256', 'uint256', 'uint256', 'bytes'], [created.reviewId, body.userId, body.score, body.reviewerId, body.reviewDesc]);
+            console.log(transactionData);
+            contract.callReviews(transactionData)
+
             jsonRes = {
                 statusCode: 200,
                 success: true,
@@ -52,9 +57,6 @@ reviewsController.addReviews = async (req, res) => {
 };
 
 reviewsController.getReviews = async (req, res) => {
-    // logger.info('inside userEnroll()...');
-    // console.log('inside userEnroll()...');
-
     let jsonRes;
     try {
         let reviewsTransaction = await reviews.findAll();
@@ -84,9 +86,6 @@ reviewsController.getReviews = async (req, res) => {
 };
 
 reviewsController.getReviewsById = async (req, res) => {
-    // logger.info('inside userEnroll()...');
-    // console.log('inside userEnroll()...');
-
     let jsonRes;
     try {
         let reviewsTransaction = await reviews.findByPk(req.params.reviewId);
@@ -98,11 +97,39 @@ reviewsController.getReviewsById = async (req, res) => {
                 message: 'Unable to retrieve record.'
             };
         } else {
-            jsonRes = {
-                statusCode: 200,
-                success: true,
-                body: reviewsTransaction
-            }; 
+            let body = reviewsTransaction.dataValues;
+            ['createdAt', 'updatedAt'].forEach(e => delete body[e])
+            
+            body = {
+                reviewId: body.reviewId.toString(),
+                userId: body.userId.toString(),
+                reviewerId: body.reviewerId.toString(),
+                score: body.score.toString(),
+                reviewDesc: "0x"+ CryptoJS.SHA1(body.reviewDesc).toString(CryptoJS.enc.Hex)
+            }
+            console.log("body:",body);
+            let chainResponse = await contract.getReviews(req.params.reviewId) 
+            let newbody = {
+                reviewId: chainResponse.reviewId,
+                userId: chainResponse.userId,
+                reviewerId: chainResponse.reviewerId,
+                score: chainResponse.score,
+                reviewDesc: chainResponse.reviewDesc
+            }
+            console.log("newbody:",newbody);
+            if(_.isEqual(body, newbody)) {
+                jsonRes = {
+                    statusCode: 200,
+                    success: true,
+                    body: reviewsTransaction
+                }; 
+            } else {
+                jsonRes = {
+                    statusCode: 500,
+                    success: false,
+                    message: 'Data returned is not identical to blockchain data'
+                };
+            }
         }
     } catch(error) {
         jsonRes = {
@@ -116,9 +143,6 @@ reviewsController.getReviewsById = async (req, res) => {
 };
 
 reviewsController.getReviewsByUser = async (req, res) => {
-    // logger.info('inside userEnroll()...');
-    // console.log('inside userEnroll()...');
-
     let jsonRes;
     try {
         let reviewsTransaction = await reviews.findAll({
@@ -151,9 +175,6 @@ reviewsController.getReviewsByUser = async (req, res) => {
     }
 };
 reviewsController.getReviewsByReviewer = async (req, res) => {
-    // logger.info('inside userEnroll()...');
-    // console.log('inside userEnroll()...');
-
     let jsonRes;
     try {
         let reviewsTransaction = await reviews.findAll({
@@ -187,9 +208,6 @@ reviewsController.getReviewsByReviewer = async (req, res) => {
 };
 
 reviewsController.updateReviews = async (req, res) => {
-    // logger.info('inside userEnroll()...');
-    // console.log('inside userEnroll()...');
-
     let jsonRes;
     try {
         let reviewId = req.params.reviewId;
