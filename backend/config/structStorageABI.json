@@ -27,6 +27,12 @@
 			},
 			{
 				"indexed": false,
+				"internalType": "uint256",
+				"name": "reviewerId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
 				"internalType": "bytes",
 				"name": "reviewDesc",
 				"type": "bytes"
@@ -158,6 +164,11 @@
 			{
 				"internalType": "uint256",
 				"name": "score",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "reviewerId",
 				"type": "uint256"
 			},
 			{
