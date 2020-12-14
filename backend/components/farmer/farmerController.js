@@ -4,18 +4,12 @@ const util = require('../../helpers/util');
 
 const Farmer = require('./farmerModel')
 
-// const logger = log4js.getLogger('controllers - farmer');
-// logger.level = config.logLevel;
-// console.log('controllers - farmer');
-
 /**
  * Controller object
  */
 const farmer = {};
 
 farmer.getFarmer = async (req, res) => {
-    // logger.info('inside getFarmer()...');
-
     let jsonRes;
     
     try {
@@ -52,8 +46,6 @@ farmer.getFarmer = async (req, res) => {
 };
 
 farmer.updateFarmer = async (req, res) => {
-    // logger.info('inside updateFarmer()...');
-
     let jsonRes;
     
     try {

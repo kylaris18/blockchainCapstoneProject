@@ -4,18 +4,12 @@ const util = require('../../helpers/util');
 
 const Wholesaler = require('./wholesalerModel');
 
-// const logger = log4js.getLogger('controllers - wholesaler');
-// logger.level = config.logLevel;
-// console.log('controllers - wholesaler');
-
 /**
  * Controller object
  */
 const wholesaler = {};
 
 wholesaler.getWholesaler = async (req, res) => {
-    // logger.info('inside getFarmer()...');
-
     let jsonRes;
     
     try {
@@ -52,8 +46,6 @@ wholesaler.getWholesaler = async (req, res) => {
 };
 
 wholesaler.updateWholesaler = async (req, res) => {
-    // logger.info('inside updateWholesaler()...');
-
     let jsonRes;
     
     try {

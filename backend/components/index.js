@@ -19,13 +19,6 @@ const reviews = require('./reviews');
 const router = express.Router();
 
 /**
- * Set up logging
- 
-const logger = log4js.getLogger('routes - index');
-logger.level = config.logLevel;
-*/
-
-/**
  * Error handler
  */
 app.use(errorHandler.catchNotFound);

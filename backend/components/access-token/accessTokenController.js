@@ -6,16 +6,12 @@ const util = require('../../helpers/util');
 
 const User = require('../user-enrollment/userEnrollmentModel')
 
-// const logger = log4js.getLogger('controllers - accessToken');
-// logger.level = config.logLevel;
-
 /**
  * Controller object
  */
 const accessToken = {};
 
 accessToken.generateAccessToken = async (req, res) => {
-    // logger.debug('inside generateAccessToken()...');
     let jsonRes;
 
     try {
@@ -43,7 +39,6 @@ accessToken.generateAccessToken = async (req, res) => {
                 let userDetails = {
                     username: getUser.username
                 };
-                // logger.debug('generateAccessToken user authenticated');
                 let token = jwt.sign(userDetails, config.token.secret, {
                     expiresIn: config.token.expiry
                 }); 

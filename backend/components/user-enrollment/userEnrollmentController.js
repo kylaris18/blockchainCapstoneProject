@@ -6,19 +6,12 @@ const User = require('./userEnrollmentModel')
 const Farmer = require('../farmer/farmerModel')
 const Wholesaler = require('../wholesaler/wholesalerModel')
 
-// const logger = log4js.getLogger('controllers - userEnrollment');
-// logger.level = config.logLevel;
-// console.log('controllers - userEnrollment');
-
 /**
  * Controller object
  */
 const userEnrollment = {};
 
 userEnrollment.userEnroll = async (req, res) => {
-    // logger.info('inside userEnroll()...');
-    // console.log('inside userEnroll()...');
-
     let jsonRes;
 
     const salt = util.getSalt();
@@ -96,8 +89,6 @@ userEnrollment.userEnroll = async (req, res) => {
 };
 
 userEnrollment.updateUsername = async (req, res) => {
-    // logger.info('inside editUser()...');
-
     let jsonRes;
     
     try {
@@ -134,8 +125,6 @@ userEnrollment.updateUsername = async (req, res) => {
 };
 
 userEnrollment.updatePassword = async (req, res) => {
-    // logger.info('inside updatePassword()...');
-
     let jsonRes;
 
     const salt = util.getSalt();

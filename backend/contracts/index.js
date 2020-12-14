@@ -26,12 +26,11 @@ async function getTransaction(transactionId){
 async function callReviews(reviewData){
 	let decodeReviewData = await structStorageContract.methods.decodeReview(reviewData).encodeABI();
 	const decodeReview = await buildSendTransaction(acct, acctKey, decodeReviewData);
-	console.log(decodeReview)
 }
 
 async function getReviews(reviewId){
 	let review = await structStorageContract.methods.reviews(reviewId).call()
-	console.log(review)
+	return review
 }
 
 async function buildSendTransaction(account, accountKey, data) {
