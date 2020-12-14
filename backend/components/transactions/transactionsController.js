@@ -80,7 +80,6 @@ transactionsController.getTransaction = async (req, res) => {
             };
         } else {
             let body = transaction.dataValues;
-            // console.log(body)
             contract.getTransaction(req.params.transactionId) // Jodie gawa ka logic after nito
             jsonRes = {
                 statusCode: 200,
@@ -108,7 +107,7 @@ transactionsController.updateTransactionStatus = async (req, res) => {
         let body = req.body
         if(body.status === 5)
             body.deliveryRecieveDate = new Date()
-        
+            body.deliveryRecieveDate = body.deliveryRecieveDate.toISOString()
         let updated = await Transaction.update(
             body, 
             {
@@ -116,6 +115,7 @@ transactionsController.updateTransactionStatus = async (req, res) => {
             }
         ) 
 
+        let transaction = await Transaction.findByPk(req.params.transactionId);
         if(updated == 0) {
             jsonRes = {
                 statusCode: 400,
@@ -123,12 +123,12 @@ transactionsController.updateTransactionStatus = async (req, res) => {
                 message: 'Unable to find transaction.'
             };
         } else {
-            let body = req.body;
-            body.deliverySendDate = Web3.utils.asciiToHex(created.deliverySendDate); //need natin kunin yung deliverySendDate sa db
-            body.deliveryRecieveDate = Web3.utils.asciiToHex(body.deliveryRecieveDate); //creacted ba or body?
-            body.deliveryDesc = "0x"+ CryptoJS.SHA1(body.deliveryDesc).toString(CryptoJS.enc.Hex) //dito rin need galing db pati yung mga id
+            let data = transaction.dataValues;
+            body.deliverySendDate = Web3.utils.asciiToHex(data.deliverySendDate.toISOString());
+            body.deliveryRecieveDate = Web3.utils.asciiToHex(body.deliveryRecieveDate);
+            body.deliveryDesc = "0x"+ CryptoJS.SHA1(data.deliveryDesc).toString(CryptoJS.enc.Hex)
 
-            let transactionData = Web3EthAbi.encodeParameters(['uint256', 'uint256', 'uint256', 'uint256', 'bytes', 'bytes', 'bytes'], [created.transactionId, body.wholesalerId, body.goodsId, 1, body.deliverySendDate, body.deliveryRecieveDate, body.deliveryDesc]);
+            let transactionData = Web3EthAbi.encodeParameters(['uint256', 'uint256', 'uint256', 'uint256', 'bytes', 'bytes', 'bytes'], [data.transactionId, data.wholesalerId, data.goodsId, body.status, body.deliverySendDate, body.deliveryRecieveDate, body.deliveryDesc]);
 
             contract.callTransaction(transactionData)
 
