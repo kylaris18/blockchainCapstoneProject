@@ -1,98 +1,36 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/alexdevero/react-native-expo-starter/master/docs/react-native-expo-starter-logo.png" width="135" align="center">
-  <br>
-  <br>
-</p>
+# AgriQultura (Blockchain Capstone Project)
 
+## What is AgriQultura?
 
-<p align="center">
-  <img src="https://forthebadge.com/images/badges/built-with-love.svg"  align="center">
-  <br>
-  <img src="https://forthebadge.com/images/badges/powered-by-coffee.svg"  align="center">
-  <br>
-  <img src="https://forthebadge.com/images/badges/contains-tasty-spaghetti-code.svg"  align="center">
-</p>
+AgriQultura is a joint-effort project of Questronix developers to try and solve trust and other problems such as inequality, under pricing, and alleged exploitation of low income farmers in the agricultural supply chain by the use of blockchain technology. This serves as their Capstone project for Blockchain Development Program taken at Unionbank's Apptitude website (https://ubpxcellerator.apptitude.xyz/course/blockchain-development-program-576/).
 
+## How's this done?
 
-# React Native & Expo Starter
+The developers created an mobile app called AgriQultura that allows producers (local farmers) post and upload their goods and produce. It also allows wholesalers (people who buys in bulk, usually resellers/store owners in a small community market) to register to the app, creating a virtual agricultural marketplace.
 
-Awesome starter template to help you build mobile app with React native and Expo.
+Every Transactions and User Reviews in AgriQultura is stored in the blockchain using a Smart Contract. Data is being stored publicly, so the transaction records can not easily be tampered. 
 
-### Table of contents
+Since the transaction data is publicly available and reliable, prices of goods from producers can not be bought in an underpriced manner by the wholesalers. This also gives the producers and the public the opportunity to see what their goods are actually work in a specific area in a specific time, which the developers hope in turn encourages other land owners to also grow goods and increase the overall agricultural produce of the area.
 
-* [Install](#install)
-* [Usage](#usage)
-* [Code of Conduct](#code-of-conduct)
-* [License](#license)
+User reviews are also available publicly through blockchain, which gives the producers and wholesalers the opportunity to review one another. This encourages competitive behavior among the producers (increase quality of goods, upscale production, etc.) and wholesalers (buy fairly, create healthy relations with producers, etc.).
 
-### Install
+## Where can I find more information about the AgriQultura?
 
-#### Clone this repository
+Please contact Questronix Corporation for more details.
 
-```
-git clone https://github.com/kylaris18/blockchainCapstoneProject.git
-```
+## License
 
-#### Install dependencies
+Copyright (C) 2020  AgriQultura - Blockchain Capstone Project
 
-```
-npm install
-```
-or
-```
-yarn
-```
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-### Usage
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details. 
 
-### Run the app
-#### For FrontEnd
-
-```
-git checkout frontend
-```
-then
-```
-npm install
-```
-then
-```
-npm start
-```
-or
-```
-yarn start
-```
-or
-```
-expo start
-```
-
-#### For Backend
-```
-Work In Progress
-```
-
-#### Frontend - Develop the app for iOS
-
-```
-npm run ios
-```
-or
-```
-yarn run ios
-```
-
-#### Frontend - Develop the app for Android
-
-```
-npm run android
-```
-or
-```
-yarn run android
-```
-
-### Code of Conduct
-
-[Contributor Code of Conduct](code-of-conduct.md). By participating in this project you agree to abide by its terms.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
