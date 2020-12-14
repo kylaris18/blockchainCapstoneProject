@@ -23,8 +23,7 @@ const Transactions = sequelize.define('transactions', {
     },
     deliverySendDate: {
         type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: new Date().toISOString(),
+        allowNull: false
     },
     deliveryRecieveDate: {
         type: 'TIMESTAMP',

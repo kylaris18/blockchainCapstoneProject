@@ -14,5 +14,10 @@
     "name": "blockchaincapstone",
     "host": "localhost",
     "port": "3306"
+  },
+  "blockchain": {
+    "structStorageAddress": "",
+    "acct": "",
+    "acctKey": ""
   }
 }

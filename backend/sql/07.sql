@@ -1,4 +1,4 @@
-CREATE TABLE `blockchaincapstone`.`status` ( 
+CREATE TABLE `status` ( 
     `code` INT(2) NOT NULL , 
     `status` VARCHAR(20) NOT NULL , 
     PRIMARY KEY (`code`)

@@ -3,6 +3,7 @@
 const Web3 = require('web3');
 const Web3EthAbi = require('web3-eth-abi');
 const CryptoJS = require("crypto-js");
+const _ = require('lodash')
 
 const util = require('../../helpers/util');
 
@@ -10,26 +11,24 @@ const Transaction = require('./transactionsModel')
 
 const contract = require('../../contracts/index')
 
-// const logger = log4js.getLogger('controllers - userEnrollment');
-// logger.level = config.logLevel;
-// console.log('controllers - userEnrollment');
-
 /**
  * Controller object
  */
 const transactionsController = {};
 
 transactionsController.addTransaction = async (req, res) => {
-    // logger.info('inside userEnroll()...');
-    // console.log('inside userEnroll()...');
 
     let jsonRes;    
     try {
+        let deliverySendDate = new Date()
+        deliverySendDate.setMilliseconds(0)
+        
         let created = await Transaction.create({
             wholesalerId: req.body.wholesalerId || '',
             goodsId: req.body.goodsId || '',
             status: 1,
-            deliveryDesc: req.body.deliveryDesc || ''
+            deliveryDesc: req.body.deliveryDesc || '',
+            deliverySendDate: deliverySendDate
         })
 
         if(!created) {
@@ -40,7 +39,7 @@ transactionsController.addTransaction = async (req, res) => {
             };
         } else {
             let body = req.body;
-            body.deliverySendDate = Web3.utils.asciiToHex(created.deliverySendDate);
+            body.deliverySendDate = Web3.utils.asciiToHex(created.deliverySendDate.toISOString());
             body.deliveryRecieveDate = Web3.utils.asciiToHex("");
             body.deliveryDesc = "0x"+ CryptoJS.SHA1(body.deliveryDesc).toString(CryptoJS.enc.Hex)
 
@@ -66,8 +65,6 @@ transactionsController.addTransaction = async (req, res) => {
 };
 
 transactionsController.getTransaction = async (req, res) => {
-    // logger.info('inside userEnroll()...');
-    // console.log('inside userEnroll()...');
 
     let jsonRes;
     try {
@@ -80,12 +77,42 @@ transactionsController.getTransaction = async (req, res) => {
             };
         } else {
             let body = transaction.dataValues;
-            contract.getTransaction(req.params.transactionId) // Jodie gawa ka logic after nito
-            jsonRes = {
-                statusCode: 200,
-                success: true,
-                body: transaction
-            }; 
+            ['createdAt', 'updatedAt'].forEach(e => delete body[e])
+            
+            body = {
+                transactionId: body.transactionId.toString(),
+                wholesalerId: body.wholesalerId.toString(),
+                goodsId: body.goodsId.toString(),
+                status: body.status.toString(),
+                deliverySendDate: Web3.utils.asciiToHex(body.deliverySendDate.toISOString()),
+                deliveryRecieveDate: Web3.utils.asciiToHex(body.deliveryRecieveDate),
+                deliveryDesc: "0x"+ CryptoJS.SHA1(body.deliveryDesc).toString(CryptoJS.enc.Hex)
+            }
+            
+            let chainResponse = await contract.getTransaction(req.params.transactionId) 
+            let newbody = {
+                transactionId: chainResponse.transactionId,
+                wholesalerId: chainResponse.wholesalerId,
+                goodsId: chainResponse.goodsId,
+                status: chainResponse.status,
+                deliverySendDate: chainResponse.deliverySendDate,
+                deliveryRecieveDate: chainResponse.deliveryReceiveDate,
+                deliveryDesc: chainResponse.deliveryDesc
+            }
+
+            if(_.isEqual(body, newbody)) {
+                jsonRes = {
+                    statusCode: 200,
+                    success: true,
+                    body: transaction._previousDataValues
+                };
+            } else {
+                jsonRes = {
+                    statusCode: 500,
+                    success: false,
+                    message: 'Data returned is not identical to blockchain data'
+                };
+            }
         }
     } catch(error) {
         jsonRes = {
@@ -99,8 +126,6 @@ transactionsController.getTransaction = async (req, res) => {
 };
 
 transactionsController.updateTransactionStatus = async (req, res) => {
-    // logger.info('inside updateTransactionStatus()...');
-    // console.log('inside updateTransactionStatus()...');
 
     let jsonRes;
     try {

@@ -16,12 +16,11 @@ const acctKey = Buffer.from(config.blockchain.acctKey, 'hex');
 async function callTransaction(transactionData){
 	let decodeTransactionData = await structStorageContract.methods.decodeTransaction(transactionData).encodeABI();
 	const decodeTransaction = await buildSendTransaction(acct, acctKey, decodeTransactionData);
-	console.log(decodeTransaction)
 }
 
 async function getTransaction(transactionId){
 	let transaction = await structStorageContract.methods.transactions(transactionId).call()
-	console.log(transaction)
+	return transaction
 }
 
 async function callReviews(reviewData){
